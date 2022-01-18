@@ -58,8 +58,9 @@ def get_bert_embed(path, char=False):
         inputs = token.encode_plus(word, padding="max_length", truncation=True, max_length=50, add_special_tokens=True,
                                    return_tensors="pt")
         out = bert(**inputs)
+        out = linear(out[0])
         word_len = len(word)
-        out_ = out[0].detach().numpy()
+        out_ = out.detach().numpy()
         for i in range(1, word_len + 1):
             out_str = out_[0][i]
             words_embed += out_str
